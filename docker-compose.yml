@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. MariaDB Database
+  # ----------------------------------------------------------------------------
+  database:
+    image: mariadb:11.4
+    container_name: pulsevent-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: event_management_db
+      MYSQL_USER: eventuser
+      MYSQL_PASSWORD: eventpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pulsevent-network
+
+  # ----------------------------------------------------------------------------
+  # 2. Spring Boot 3.3.4 REST API Backend
+  # ----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pulsevent-backend
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/event_management_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: eventuser
+      SPRING_DATASOURCE_PASSWORD: eventpass
+      SERVER_PORT: 8085
+      APP_JWT_SECRET: PulseEventSecretKeyForJwtSigningMustBeAtLeast256BitsLongForHMACSHA256Security!
+      APP_JWT_EXPIRATION_MS: 86400000
+    ports:
+      - "8085:8085"
+    networks:
+      - pulsevent-network
+
+  # ----------------------------------------------------------------------------
+  # 3. React + Vite Nginx Frontend
+  # ----------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pulsevent-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "5173:80"
+    networks:
+      - pulsevent-network
+
+volumes:
+  mariadb_data:
+    driver: local
+
+networks:
+  pulsevent-network:
+    driver: bridge

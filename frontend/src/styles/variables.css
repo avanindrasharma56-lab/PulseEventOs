@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Black+ Luxury Ultra-Dark Design Tokens */
+  --canvas-base: #000000;
+  --surface-layer-1: #0A0A0C;
+  --surface-layer-2: #121216;
+  --surface-card: #141418;
+  --surface-glass: rgba(14, 14, 18, 0.75);
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-hairline: rgba(255, 255, 255, 0.09);
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-highlight: rgba(255, 255, 255, 0.2);
+
+  /* Black+ Signature Peach / Rose-Champagne Accent & Neutral Mono Highlights */
+  --color-primary: #F4A28C;
+  --color-primary-hover: #E7947E;
+  --color-primary-gradient: linear-gradient(135deg, #FFB4A2 0%, #F4A28C 45%, #E5989B 100%);
+  --color-secondary: #B5838D;
+  --color-accent-cyan: #E2B4BD;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  --text-high: #FFFFFF;
+  --text-muted: #A1A1AA;
+  --text-subtle: #71717A;
+  --text-inverse: #000000;
+
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --glow-primary: 0 0 32px -4px rgba(244, 162, 140, 0.25);
+  --glow-peach: 0 0 40px -8px rgba(255, 180, 162, 0.35);
+  --glow-cyan: 0 0 24px -6px rgba(226, 180, 189, 0.25);
+  --glow-card: 0 20px 48px -12px rgba(0, 0, 0, 0.95);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--canvas-base);
+  color: var(--text-high);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-high);
+  letter-spacing: -0.03em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
